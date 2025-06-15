@@ -1,20 +1,29 @@
-HEAD
-/ app.js
-import { initializeApp } from "firebase/app";
+const express = require("express");
+const admin = require("firebase-admin");
 
-// Configuração do Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyCTujv7x2GVfRJ9j_9oKPtslxTopCaa4vI",
-  authDomain: "bjj-academy-manager.firebaseapp.com",
-  projectId: "bjj-academy-manager",
-  storageBucket: "bjj-academy-manager.firebasestorage.app",
-  messagingSenderId: "277792852037",
-  appId: "1:277792852037:web:82e448d0f7022201ecbb2c"
-};
+// Inicializa o Firebase Admin (NÃO use initializeApp do firebase/app aqui)
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
+const db = admin.firestore();
 
+const app = express();
 
-const app = initializeApp(firebaseConfig);
+app.get("/", (req, res) => {
+  res.send("Bem-vindo à Kings BJJ Academy!");
+});
 
-app.get("/api/alunos", (req, res) => {
-  res.json([{ nome: "João" }, { nome: "Maria" }]);
+// Rota que busca alunos no Firestore
+app.get("/api/alunos", async (req, res) => {
+  try {
+    const snapshot = await db.collection("alunos").get();
+    const alunos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(alunos);
+  } catch (error) {
+    res.status(500).json({ erro: "Erro ao buscar alunos" });
+  }
+});
+
+app.listen(8080, () => {
+  console.log("Servidor rodando na porta 8080");
 });
