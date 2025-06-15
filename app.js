@@ -14,3 +14,7 @@ const firebaseConfig = {
 
 
 const app = initializeApp(firebaseConfig);
+
+app.get("/api/alunos", (req, res) => {
+  res.json([{ nome: "João" }, { nome: "Maria" }]);
+});
