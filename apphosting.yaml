@@ -1,5 +1,6 @@
-# Settings for Backend (on Cloud Run).
-# See https://firebase.google.com/docs/app-hosting/configure#cloud-run
+run:
+  command: node app.js
+
 runConfig:
   minInstances: 0
   # maxInstances: 100
