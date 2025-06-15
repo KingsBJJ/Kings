@@ -1,3 +1,4 @@
+HEAD
 / app.js
 import { initializeApp } from "firebase/app";
 
@@ -11,5 +12,5 @@ const firebaseConfig = {
   appId: "1:277792852037:web:82e448d0f7022201ecbb2c"
 };
 
-// Inicializa o Firebase
+
 const app = initializeApp(firebaseConfig);
